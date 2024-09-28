@@ -27,9 +27,16 @@ source "amazon-ebs" "ubuntu" {
     "Environment" = "Production"
     "OS_Version"  = "Ubuntu 22.04"
     "Release"     = "Latest"
-    "Created-by"  = "Packer"
+    "Created-by"  = "Mark Nwangang"
   }
 }
+
+# Build block
+// buil block
+
+/*
+build block
+*/
 build {
   sources = [
     "source.amazon-ebs.ubuntu"
