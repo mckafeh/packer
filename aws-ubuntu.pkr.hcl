@@ -1,3 +1,12 @@
+packer {
+  required_plugins {
+    amazon = {
+      version = ">= 1.3.2"
+      source  = "github.com/hashicorp/amazon"
+    }
+  }
+}
+
 source "amazon-ebs" "ubuntu" {
   ami_name      = "packer-ubuntu-aws-{{timestamp}}"
   instance_type = "t3.micro"
@@ -21,7 +30,6 @@ source "amazon-ebs" "ubuntu" {
     "Created-by"  = "Packer"
   }
 }
-
 build {
   sources = [
     "source.amazon-ebs.ubuntu"
@@ -33,6 +41,17 @@ build {
       "sudo apt-get update",
       "sudo apt-get upgrade -y",
       "sudo apt-get install -y nginx"
+    ]
+  }
+
+  provisioner "file" {
+    source      = "assets"
+    destination = "/tmp/"
+  }
+
+   provisioner "shell" {
+    inline = [
+      "sudo sh /tmp/assets/setup-web.sh",
     ]
   }
 }
